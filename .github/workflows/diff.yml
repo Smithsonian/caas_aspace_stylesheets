@@ -1,0 +1,49 @@
+name: Diff with upstream stylesheets
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    env:
+      PROD_ARCHIVESSPACE_VERSION: v4.1.0
+    continue-on-error: true
+    strategy:
+      matrix:
+        archivesspace_version: [v4.1.0, v4.1.1]
+    steps:
+
+    - name: Checkout our custom stylesheets
+      uses: actions/checkout@v4
+      with:
+        path: ours
+
+    - name: Checkout core stylesheets
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ matrix.archivesspace_version }}
+        repository: Smithsonian/archivesspace
+        path: theirs
+        sparse-checkout: |
+          stylesheets
+
+    - name: Diff with theirs
+      id: changes
+      run: |
+        echo "changes=$(diff -qr ${{ github.workspace }}/ours/ ${{ github.workspace }}/theirs/stylesheets -X ${{ github.workspace }}/ours/overridden_files.txt)" > $GITHUB_OUTPUT
+
+    - name: Diffs match
+      if: ${{ steps.changes.outputs.changes == '' }}
+      run: |
+        echo "All core stylesheets match ArchivesSpace ${{ matrix.archivesspace_version }}."
+
+    - name: Diffs do not match
+      if: ${{ steps.changes.outputs.changes != '' }}
+      run: |
+        echo "Some stylesheets are out of sync with those in core ArchivesSpace ${{ matrix.archivesspace_version }}.  See:"
+        echo "${{ steps.changes.outputs.changes }}"
+        exit 1

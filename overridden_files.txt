@@ -1,0 +1,11 @@
+# custom SI files
+.*
+ASpaceCleanup.xsl
+ASpacePreprocess.xsl
+ead_components.xsl
+logos
+overridden_files.*
+README.*
+# overridden files
+as-ead-pdf.xsl
+fop-config.xml
