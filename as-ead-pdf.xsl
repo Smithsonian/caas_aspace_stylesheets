@@ -52,8 +52,9 @@
 			<xsl:when test="$SI-unit-acronym = 'AAG'">si_SG_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'ACMA'">si_ACM_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'CFCH'">si_CFCH_cmyk_horizontal_b&amp;w.png</xsl:when>
+			<xsl:when test="$SI-unit-acronym = 'CHSDM'">Cooper_Hewitt_1500_w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'EEPA'">si_NMAA_cmyk_horizontal_b&amp;w.png</xsl:when>
-			<xsl:when test="$SI-unit-acronym = 'FSA'">2022 NMAA SI logo_two lines_black.svg</xsl:when>
+			<xsl:when test="$SI-unit-acronym = 'FSA'">NMAA_2100_w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'HSFA'">si_NMNH_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'NAA'">si_NMNH_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'NASM'">si_NASM_cmyk_horizontal_b&amp;w.png</xsl:when>
