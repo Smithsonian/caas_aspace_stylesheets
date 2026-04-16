@@ -1346,8 +1346,7 @@
 						
 						<!-- heading subseries section -->
 						<xsl:if test="@level='subseries'">
-							<fo:block space-before="5mm" space-after="2mm" id="{@id}"
-								xsl:use-attribute-sets="h4">
+							<fo:block id="{@id}" xsl:use-attribute-sets="h4-subseries">
 								<xsl:apply-templates select="ead:did/ead:head" mode="step2_pdf"/>
 								<xsl:call-template name="dscSection_unitid"/>
 								<xsl:call-template name="combine-that-title-and-date"/>
@@ -2352,6 +2351,13 @@
 			<xsl:attribute name="space-after">5pt</xsl:attribute>
 			<xsl:attribute name="keep-with-next.within-page">always</xsl:attribute>
 		</xsl:attribute-set>-->
+	</xsl:attribute-set>
+	<xsl:attribute-set name="h4-subseries">
+		<xsl:attribute name="font-size">12pt</xsl:attribute>
+		<xsl:attribute name="margin-bottom">4pt</xsl:attribute>
+		<xsl:attribute name="padding-bottom">0</xsl:attribute>
+		<xsl:attribute name="space-before">5mm</xsl:attribute>
+		<xsl:attribute name="space-after">2mm</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="h5">
 		<xsl:attribute name="font-size">10pt</xsl:attribute>
