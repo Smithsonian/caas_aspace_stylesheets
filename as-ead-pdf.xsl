@@ -71,7 +71,7 @@
 			<xsl:when test="$SI-unit-acronym = 'SIL-CL'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SIL-DL'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SIL-FSMC'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
-			<xsl:when test="$SI-unit-acronym = 'SIL-NPM'">si_NPM_cmyk_horizontal_b&amp;w.png</xsl:when>
+			<xsl:when test="$SI-unit-acronym = 'SIL-NPM'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SIL-RA'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SIL-RR'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:otherwise>si-logo.png</xsl:otherwise>
