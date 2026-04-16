@@ -49,7 +49,7 @@
 	<xsl:variable name="archive-logo">
 		<xsl:choose>						
 			<xsl:when test="$SI-unit-acronym = 'AAA'">si_AAA_cmyk_horizontal_b&amp;w.png</xsl:when>
-			<xsl:when test="$SI-unit-acronym = 'AAG'">si_SG_cmyk_horizontal_b&amp;w.png</xsl:when>
+			<xsl:when test="$SI-unit-acronym = 'AAG'">SG_Logo_Color.jpg</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'ACMA'">si_ACM_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'CFCH'">si_CFCH_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'CHSDM'">Cooper_Hewitt_1500_w.png</xsl:when>
@@ -62,6 +62,7 @@
 			<xsl:when test="$SI-unit-acronym = 'NMAH'">si_NMAHKEBC_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'NMAI'">si_NMAI_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'NPG'">si_NPG-f3xcbw0.png</xsl:when>
+			<xsl:when test="$SI-unit-acronym = 'NPMA'">si_NPM_cmyk_horizontal_color.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SAAM'">si_AAM_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SIA'">si_SIA_cmyk_horizontal_b&amp;w.png</xsl:when>
 			<xsl:when test="$SI-unit-acronym = 'SIL-AA'">si_Libraries_cmyk_horizontal_b&amp;w.png</xsl:when>
