@@ -694,7 +694,7 @@
 			<fo:table-body>
 				<fo:table-row>
 					<fo:table-cell number-columns-spanned="2">
-						<fo:block xsl:use-attribute-sets="h3" font-weight="bold" id="{generate-id(.)}">
+						<fo:block xsl:use-attribute-sets="h3" font-weight="bold" id="{local:buildID(.)}">
 							<xsl:attribute name="border-top">2pt solid #333</xsl:attribute>
 							<xsl:text>Collection Overview</xsl:text>
 						</fo:block>
@@ -820,7 +820,7 @@
 	It begins by testing to see if there is any controlled access element with content. 
 	It then invokes one of two templates for the children of controlaccess.  -->	
 	<xsl:template match="ead:archdesc/ead:controlaccess[normalize-space()]" mode="step2_pdf">
-		<fo:block  xsl:use-attribute-sets="h3" id="{generate-id(.)}">
+		<fo:block  xsl:use-attribute-sets="h3" id="{local:buildID(.)}">
 			<xsl:attribute name="border-top">2pt solid #333</xsl:attribute>
 			<xsl:text>Names and Subject Terms</xsl:text>
 		</fo:block>
@@ -1294,7 +1294,7 @@
 	
 	<!-- Container listing -->
 	<xsl:template mode="step2_pdf" match="ead:dsc">
-		<fo:block id="{generate-id()}" page-break-before="always" xsl:use-attribute-sets="h3" font-weight="bold">
+		<fo:block id="{local:buildID(.)}" page-break-before="always" xsl:use-attribute-sets="h3" font-weight="bold">
 			<xsl:attribute name="border-top">2pt solid #333</xsl:attribute>
 			<xsl:text>Container Listing</xsl:text>
 		</fo:block>
