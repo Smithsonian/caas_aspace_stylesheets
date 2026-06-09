@@ -546,20 +546,22 @@
             
             <!-- Updates for MADS, plus a tiny refactor -->
             <xsl:variable name="normalized-href" select="normalize-space(lower-case(@*:href))"/>
+            <!-- NOTE: MADS isn't picky about filepaths, and since both /info.json and //info.json respond the same, we'll go with a simple concat method when grabbing the info.json file -->            
+            <xsl:variable name="mads-poster-link" select="if (
+                    matches($normalized-href, 'mads.si.edu/mads/view/') and 
+                    unparsed-text(@*:href || '/info.json')
+                    )
+                then json-doc(@*:href || '/info.json')?poster
+                else null"/>
             <xsl:variable name="thumbnail-uri">
                 <xsl:choose>
-                    <!-- new patch, for the MADS convention of using '/poster' URLs for thumbnails-->
+                    <!-- new patch, for the MADS convention of using '/poster' URLs for thumbnails, but ONLY if a poster URI is part of the MADS package-->
                     <!-- Update:  only match the current-style MADS links, not the old-school ones... also, no need to keep "mads-internal" as part of the match-->
-                    <xsl:when test="matches($normalized-href, 'mads.si.edu/mads/view/')">
-                        <xsl:value-of select="replace(@*:href, '/mads/view/', '/mads/id/') || '/poster'"/>
+                    <xsl:when test="$mads-poster-link">
+                        <xsl:value-of select="$mads-poster-link"/>
                     </xsl:when>
-                    <!-- and, to continue supporitng the old-school MADS links until those are switched over -->
-                    <xsl:when test="matches($normalized-href, 'mads.si.edu/assets/player')">
-                        <xsl:variable name="old_mads_uri" select="normalize-space(substring-after(@*:href,'name='))"/>
-                        <xsl:variable name="old_mads_path" select="tokenize($old_mads_uri,'/')[last()]"/>
-                        <xsl:variable name="old_mads_filename" select="substring-after(replace($old_mads_path,'/',''),'-')"/>                     
-                        <xsl:value-of select="$old_mads_uri || '/' || $old_mads_path || '/' || $old_mads_filename || '.jpg'"/>
-                    </xsl:when>
+                    <!-- removed support for old-school MADS links, since those were all are switched over in ASpace in late 2025 -->
+
                     <!-- combining a few when statements into one... also adding the option that the href could end in .jpeg, just in case -->
                     <!-- why don't we use a IIIF thumbnail here???  instead, we're just grabbing the full size image for the URL, and then IDS and/or SOVA has to do the shrinkin' -->
                     <xsl:when test="matches($normalized-href, 'ids.si.edu|.jp(e?)g$|.gif$')">
