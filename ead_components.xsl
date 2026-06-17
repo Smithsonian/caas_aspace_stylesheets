@@ -549,7 +549,7 @@
             <!-- NOTE: MADS isn't picky about filepaths, and since both /info.json and //info.json respond the same, we'll go with a simple concat method when grabbing the info.json file -->            
             <xsl:variable name="mads-poster-link" select="if (
                     matches($normalized-href, 'mads.si.edu/mads/view/') and 
-                    unparsed-text(@*:href || '/info.json')
+                    unparsed-text-available(@*:href || '/info.json')
                     )
                 then json-doc(@*:href || '/info.json')?poster
                 else null"/>
