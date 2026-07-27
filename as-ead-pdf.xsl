@@ -1569,7 +1569,7 @@
 								<!-- <xsl:call-template name="combine-that-title-and-date"/> -->
 								<xsl:choose>
 									<xsl:when test="ead:did/ead:dao[2] or ead:dao[2] or ead:did/ead:daogrp[2]">
-										<xsl:value-of select="$title-and-date"/>
+										<xsl:copy-of select="$title-and-date"/>
 									</xsl:when>
 									<xsl:when
 										test="
@@ -1581,7 +1581,7 @@
 										<fo:inline xsl:use-attribute-sets="link">
 											<fo:basic-link
 												external-destination="url('{ead:did/ead:dao[1]/@*:href}')">
-												<xsl:value-of select="$title-and-date"/>
+												<xsl:copy-of select="$title-and-date"/>
 											</fo:basic-link>
 										</fo:inline>
 									</xsl:when>
@@ -1593,12 +1593,12 @@
 										">
 										<fo:inline xsl:use-attribute-sets="link">
 											<fo:basic-link external-destination="url('{ead:did/ead:daogrp[1]/ead:daoloc[@xlink:role eq 'web-resource-link'][1]/@xlink:href}')">
-												<xsl:value-of select="$title-and-date"/>
+												<xsl:copy-of select="$title-and-date"/>
 											</fo:basic-link>
 										</fo:inline>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="$title-and-date"/>
+										<xsl:copy-of select="$title-and-date"/>
 									</xsl:otherwise>
 								</xsl:choose>
 							</fo:block>
@@ -1651,8 +1651,8 @@
 															or normalize-space(translate(ead:daodesc/ead:p, '.,:;[]', ' ')) = normalize-space(translate($title-and-date, '.,:;[]', ' ')))">
 												<xsl:call-template name="digital_content_type"/>
 												<xsl:text>: </xsl:text>
-												<xsl:value-of
-												select="ead:daodesc/ead:p/normalize-space()"/>
+												<xsl:apply-templates
+												select="ead:daodesc/ead:p"/>
 												</xsl:if>
 												</fo:basic-link>
 											</fo:block>
@@ -1696,8 +1696,8 @@
 														not(normalize-space(translate(ead:daodesc/ead:p, '.,:;[]', ' ')) = normalize-space(translate($title, '.,:;[]', ' '))
 														or normalize-space(translate(ead:daodesc/ead:p, '.,:;[]', ' ')) = normalize-space(translate($title-and-date, '.,:;[]', ' ')))">
 														<xsl:text>Digital Content: </xsl:text>
-														<xsl:value-of
-															select="ead:daodesc/ead:p/normalize-space()"/>
+														<xsl:apply-templates
+															select="ead:daodesc/ead:p"/>
 													</xsl:if>
 												</fo:basic-link>
 											</fo:block>
@@ -1937,6 +1937,11 @@
 			<xsl:text>, </xsl:text>
 		</xsl:if>
 	</xsl:template>
+	
+	<!-- new, but possibly not needed -->
+	<xsl:template match="ead:unittitle" mode="step2_pdf" >
+		<xsl:apply-templates mode="step2_pdf"/>
+	</xsl:template>
 
 	<xsl:template name="container_details">
 		<!-- formats grouped containers. set group terms and fo:block details prior to call-template -->		
@@ -2001,7 +2006,7 @@
 					
 					<xsl:otherwise>
 						<xsl:text>: </xsl:text>
-						<xsl:value-of select="ead:daodesc/ead:p/normalize-space()"/>
+						<xsl:apply-templates select="ead:daodesc/ead:p"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</fo:basic-link>
@@ -2043,7 +2048,7 @@
 					
 					<xsl:otherwise>
 						<xsl:text>: </xsl:text>
-						<xsl:value-of select="ead:daodesc/ead:p/normalize-space()"/>
+						<xsl:apply-templates select="ead:daodesc/ead:p"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</fo:basic-link>
