@@ -1605,7 +1605,7 @@
 
 							<!-- phys desc -->
 							<xsl:for-each select="ead:did/ead:physdesc | ead:did/ead:materialspec">
-								<fo:block keep-with-next.within-page="always">
+								<fo:block>
 									<xsl:apply-templates mode="step2_pdf"/>
 								</fo:block>
 							</xsl:for-each>
