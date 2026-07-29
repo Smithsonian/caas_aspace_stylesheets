@@ -38,6 +38,8 @@
     <xsl:output method="xml" encoding="utf-8" indent="yes"/>
     <xsl:strip-space elements="*"/>
     
+    <xsl:include href="ASpaceExtents.xsl"/>
+    
     <!--  identity transformation -->
     <xsl:template match="@* | node()">
         <xsl:copy>
@@ -54,78 +56,39 @@
         1. Adjust the 1st extent element ouput for each physdesc (because 1st is the structured input, 2nd is container summary). 
         2. Do not display extent numbers when number is 0 -->
     <xsl:template match="ead:extent[1][@type]
-                                    [matches(., '^\d')]
+                                    [matches(., '^\d|\.\d')]
                                     [not(matches(.,'-$'))]
                                     [not(matches(lower-case(@type),'undetermined'))]">
                                     
         <xsl:variable name="extent-type" select="@type"/>
         <xsl:if test="$extent-type">
+            <!-- note the addition of the 'q' quote parameter.  this ensures that strings that include paratheses, like (VHS), will match on those exact strings, rather than treat that section as regex -->
+            <xsl:variable name="extent-number-text" select="replace(normalize-space(.), $extent-type, '', 'q')"/>
             <xsl:variable name="extent-number" 
-                select="number(replace(normalize-space(.),$extent-type,''))"/>
+                select="if ($extent-number-text castable as xs:decimal) then xs:decimal($extent-number-text) else 0"/>
             
             <extent>
             <xsl:copy-of select="@*"/>
             <xsl:choose>               
-                <xsl:when test="$extent-number = 0">
+                <xsl:when test="$extent-number eq 0">
                     <xsl:value-of select="$extent-type"/>
                 </xsl:when>
                 <xsl:when test="$extent-number gt 0">
+                    <xsl:variable name="matched-extent-translation" select="$extent-map(lower-case($extent-type))"/>
                     <xsl:value-of select="format-number($extent-number, '#,##0.###')"/>
                     <xsl:text> </xsl:text>
                     <xsl:choose>
-                        <!--changes feet to foot for singular extents-->
-                        <xsl:when test="$extent-number eq 1 and contains($extent-type, 'feet')">
-                            <xsl:value-of select="replace($extent-type, 'feet', 'foot')"/>
-                        </xsl:when>
-                        <!--changes boxes to box for singular extents-->
-                        <xsl:when test="$extent-number eq 1 and contains($extent-type, 'boxes')">
-                            <xsl:value-of select="replace($extent-type, 'boxes', 'box')"/>
-                        </xsl:when>
-                        <!--the following should not be an extent type, but until that's changed in the AT-->
-                        <xsl:when test="$extent-number eq 1 and contains($extent-type, 'inches')">
-                            <xsl:value-of select="replace($extent-type, 'inches', 'inch')"/>
-                        </xsl:when>
-                        <!-- change sketches to sketch for singular extents... but we need to re-do this whole process since we have issues, now, with captilizations that we needn't have.-->
-                        <xsl:when test="$extent-number eq 1 and contains($extent-type, 'Sketches')">
-                            <xsl:value-of select="replace($extent-type, 'Sketches', 'Sketch')"/>
-                        </xsl:when>
-                        <!--changes works to work for the "Works of art" extent type, if this is used-->
-                        <xsl:when test="$extent-number eq 1 and contains($extent-type, 'works of art')">
-                            <xsl:value-of select="replace($extent-type, 'works', 'work')"/>
-                        </xsl:when>
-                        <!--updates the trailing 'ies' for singular extents-->
-                        <xsl:when test="$extent-number eq 1 and ends-with($extent-type, 'ies')">
-                            <xsl:value-of select="replace($extent-type, 'ies$', 'y')"/>
-                        </xsl:when>
-                        <!--chops off the trailing 's' for singular extents-->
-                        <xsl:when test="$extent-number eq 1 and ends-with($extent-type, 's')">
-                            <xsl:variable name="sl" select="string-length($extent-type)"/>
-                            <xsl:value-of select="substring($extent-type, 1, $sl - 1)"/>
-                        </xsl:when>
-                        <!--chops off the trailing 's' for singular extents that are in AAT form, with a paranthetical qualifer-->
-                        <xsl:when test="$extent-number eq 1 and ends-with($extent-type, ')')">
-                            <xsl:value-of select="replace($extent-type, 's \(', ' (')"/>
-                        </xsl:when>
-                        
-                        <!--any other irregular singular/plural extent type names???-->
-                        
-                        <!-- yes, we also have:
-                            Cartes-de-viste (card photographs)
-                            
-                            carte-de-viste (card photograph)
-                            
-                            to handle
-                        
-                        But before we do that, update the EAD export process to make sure that we serialize the database value into EAD's attribute value
-                        rather than the YML translation value (which only belongs in the text node)
-                        
-                        And we also need to move toward URI-based controlled value lists....
-                        
-                        -->
-                        
-                        <!--otherwise, just print out the childless text node as is-->
-                        <xsl:otherwise>
+                        <!-- fail first, and fall back to the source data if there's no match -->
+                        <xsl:when test="empty($matched-extent-translation)">
                             <xsl:value-of select="$extent-type"/>
+                        </xsl:when>
+                        <!-- singular extents handled here -->
+                        <xsl:when test="$extent-number eq 1">
+                            <xsl:value-of select="$matched-extent-translation[1]"/>
+                        </xsl:when>
+                        <!--otherwise, grab the plural value from the matched-extent-translation variable -->
+                        <xsl:otherwise>
+                            <xsl:value-of select="$matched-extent-translation[2]"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
