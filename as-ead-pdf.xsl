@@ -459,25 +459,24 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</fo:bookmark-title>
+						<!-- Creates a submenu for subfonds, subgrp or subseries -->
+						<xsl:for-each select="child::*[@level = 'subfonds'] | child::*[@level = 'subgrp']  | child::*[@level = 'subseries']">
+							<fo:bookmark internal-destination="{local:buildID(.)}">
+								<fo:bookmark-title>
+									<xsl:choose>
+										<xsl:when test="ead:head">
+											<xsl:apply-templates select="child::*/ead:head" mode="step2_pdf"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="string-join((local:capitalize-first-word(@level), ead:did/ead:unitid[not(@audience='internal')]), ' ')"/>
+											<xsl:text>: </xsl:text>
+											<xsl:value-of select="ead:did/ead:unittitle"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</fo:bookmark-title>
+							</fo:bookmark>
+						</xsl:for-each>
 					</fo:bookmark>
-					<!-- Creates a submenu for subfonds, subgrp or subseries -->
-					<xsl:for-each select="child::*[@level = 'subfonds'] | child::*[@level = 'subgrp']  | child::*[@level = 'subseries']">
-						<fo:bookmark internal-destination="{local:buildID(.)}">
-							<fo:bookmark-title>
-								<xsl:choose>
-									<xsl:when test="ead:head">
-										<xsl:apply-templates select="child::*/ead:head" mode="step2_pdf"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="local:capitalize-first-word(@level)"/>
-										<xsl:value-of select="ead:did/ead:unitid[not(@audience='internal')]"/>
-										<xsl:text>: </xsl:text>
-										<xsl:value-of select="ead:did/ead:unittitle"/>
-									</xsl:otherwise>
-								</xsl:choose>
-							</fo:bookmark-title>
-						</fo:bookmark>
-					</xsl:for-each>
 				</xsl:for-each>
 			</xsl:for-each>
 		</fo:bookmark-tree>

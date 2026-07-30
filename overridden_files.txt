@@ -1,6 +1,7 @@
 # custom SI files
 .*
 ASpaceCleanup.xsl
+ASpaceExtents.xsl
 ASpacePreprocess.xsl
 ead_components.xsl
 logos
