@@ -10,6 +10,7 @@ Currently customized files:
 Added by SI:
 
 - ASpaceCleanup.xsl
+- ASpaceExtents.xsl
 - ASpacePreprocess.xsl
 - ead_components.xsl
 - logos/
